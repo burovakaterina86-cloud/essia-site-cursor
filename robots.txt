@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://essa-ai.ru/sitemap.xml
+
+Host: essa-ai.ru

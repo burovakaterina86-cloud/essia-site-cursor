@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESSA.AI — AI-решения для бизнеса</title>
+  <meta name="description" content="Автоматизация бизнеса с помощью AI-ассистентов и Make.com. ИИ-боты для Telegram, внедрение нейросетей. Цены от 14 900 руб.">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            page: '#020617',
+            card: 'rgba(30, 41, 59, 0.4)',
+            border: '#1e293b',
+            accent: '#10b981',
+            violet: '#7c3aed',
+            pink: '#db2777',
+          },
+          fontFamily: {
+            unbounded: ['Unbounded', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          boxShadow: {
+            glow: '0 0 20px rgba(124, 58, 237, 0.5)',
+            glowHover: '0 0 30px rgba(124, 58, 237, 0.6)',
+            glowSoft: '0 0 40px rgba(124, 58, 237, 0.25)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* === CSS Variables === */
+    :root {
+      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.35);
+      --shadow-hover: 0 14px 42px rgba(0, 0, 0, 0.45);
+      --shadow-card-img: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.4));
+      --transition-base: 220ms ease-out;
+    }
+
+    html, body { overflow-x: hidden; }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #020617;
+      background-image:
+        radial-gradient(circle at 10% 0%, rgba(88, 28, 135, 0.5) 0, transparent 55%),
+        radial-gradient(circle at 82% 12%, rgba(236, 72, 153, 0.32) 0, transparent 55%),
+        radial-gradient(circle at 10% 100%, rgba(15, 23, 42, 0.9) 0, transparent 60%),
+        linear-gradient(to right, transparent 45%, rgba(15, 23, 42, 0.95) 100%);
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    /* === HERO === */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% -5%, rgba(148, 163, 253, 0.5) 0, transparent 60%),
+        radial-gradient(circle at 0% 80%, rgba(76, 29, 149, 0.6) 0, transparent 65%),
+        radial-gradient(circle at 100% 80%, rgba(236, 72, 153, 0.22) 0, transparent 60%);
+      background-size: 160% 160%;
+      animation: gradientMove 18s ease-in-out infinite;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -40% -10%;
+      background: radial-gradient(circle at 50% 5%, rgba(226, 232, 240, 0.25) 0, transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+      opacity: 0.04;
+      background-image:
+        repeating-linear-gradient(180deg, rgba(148,163,184,0.06) 0, rgba(148,163,184,0.06) 2px, transparent 2px, transparent 10px),
+        linear-gradient(90deg, rgba(15,23,42,0.9), rgba(15,23,42,0.75));
+      background-size: 100% 200%, 100% 100%;
+      filter: blur(3px);
+      animation: heroCodeDrift 28s linear infinite;
+      z-index: 0;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes heroCodeDrift {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 0 100%, 0 0; }
+    }
+
+    /* Hero text card */
+    .hero-text-card {
+      position: relative;
+      max-width: 40rem;
+      background: rgba(20, 20, 35, 0.4);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 1.5rem 1.25rem;
+      box-shadow: var(--shadow-soft);
+      z-index: 1;
+      animation: heroTextIn 0.7s ease-out 0.05s both;
+    }
+    @media (min-width: 768px) {
+      .hero-text-card { padding: 2.75rem 2.5rem; }
+    }
+    .hero-text-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(129, 140, 248, 0.75), rgba(236, 72, 153, 0.65));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    /* Hero photo shell — NO glow pseudo-element */
+    .hero-photo-shell {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      animation: heroPhotoIn 0.8s ease-out 0.12s both;
+    }
+    /* REMOVED: .hero-photo-shell::before glow — was source of muted halo */
+
+    .hero-photo {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.6));
+    }
+    .hero-visual { position: relative; width: 100%; }
+
+    /* === Hero cards — clean container, NO ghost rectangles === */
+    .hero-card {
+      position: absolute;
+      overflow: visible;
+      border-radius: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      transition: transform var(--transition-base);
+      will-change: transform;
+      pointer-events: auto;
+      z-index: 1;
+    }
+    .hero-card-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      filter: var(--shadow-card-img);
+    }
+
+    /* card1 — top right, behind shoulder */
+    .hero-card-1 {
+      top: 6%;
+      right: -10%;
+      width: clamp(16rem, 20vw, 25rem);
+      transform: rotate(4deg);
+      animation: heroCardFloat1 14s ease-in-out infinite;
+    }
+    /* card2 — bottom left */
+    .hero-card-2 {
+      bottom: -8%;
+      left: -14%;
+      width: clamp(19rem, 25vw, 32rem);
+      transform: rotate(-6deg);
+      z-index: 3;
+      animation: heroCardFloat2 17s ease-in-out infinite;
+    }
+    /* card3 — mid-right, behind waist */
+    .hero-card-3 {
+      top: 45%;
+      right: -35%;
+      width: clamp(14rem, 18vw, 22rem);
+      transform: rotate(6deg);
+      animation: heroCardFloat3 19s ease-in-out infinite;
+    }
+
+    .hero-card-1:hover { transform: translateY(-8px) rotate(4deg); }
+    .hero-card-2:hover { transform: translateY(-8px) rotate(-6deg); }
+    .hero-card-3:hover { transform: translateY(-8px) rotate(6deg); }
+
+    @keyframes heroCardFloat1 {
+      0%   { transform: translateY(0) rotate(4deg); }
+      50%  { transform: translateY(-6px) rotate(4deg); }
+      100% { transform: translateY(0) rotate(4deg); }
+    }
+    @keyframes heroCardFloat2 {
+      0%   { transform: translateY(0) rotate(-6deg); }
+      50%  { transform: translateY(5px) rotate(-6deg); }
+      100% { transform: translateY(0) rotate(-6deg); }
+    }
+    @keyframes heroCardFloat3 {
+      0%   { transform: translateY(0) rotate(6deg); }
+      50%  { transform: translateY(-7px) rotate(6deg); }
+      100% { transform: translateY(0) rotate(6deg); }
+    }
+
+    @media (max-width: 900px) {
+      .hero-photo-shell { max-width: 16rem; margin-inline: auto; }
+      .hero-card-1, .hero-card-2 {
+        left: 50%;
+        transform: translateX(-50%);
+        width: clamp(12rem, 60vw, 17rem);
+      }
+      .hero-card-1 { top: -6%; }
+      .hero-card-2 { bottom: -10%; }
+      .hero-card-3 {
+        top: 35%;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: clamp(10rem, 50vw, 14rem);
+      }
+    }
+
+    @keyframes heroTextIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroPhotoIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Utilities === */
+    .font-heading { font-family: 'Unbounded', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text { background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gradient-btn { background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); }
+    .btn-interactive { transition: transform var(--transition-base), box-shadow var(--transition-base); }
+    .btn-interactive:hover { transform: scale(1.03); box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+    .btn-interactive:active { transform: scale(0.98); }
+    .card-enter { animation: cardEnter 0.4s ease-out forwards; }
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === 3D Flip Cards (premium polish) === */
+    .flip-card { perspective: 1000px; }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      transition: transform 0.65s ease-out;
+      transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner,
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+      transition: border-color var(--transition-base), box-shadow var(--transition-base);
+    }
+    .flip-card-front {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow-y: auto;
+    }
+    .flip-card:hover .flip-card-front,
+    .flip-card.flipped .flip-card-front {
+      border-color: rgba(124, 58, 237, 0.3);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .flip-card-back .flip-back-content { opacity: 0; }
+    .flip-card:hover .flip-card-back .flip-back-content,
+    .flip-card.flipped .flip-card-back .flip-back-content { animation: flipBackIn 0.4s ease 0.15s forwards; }
+    @keyframes flipBackIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CTA pulse */
+    .cta-card-btn { transition: transform var(--transition-base), box-shadow var(--transition-base); }
+    .cta-card-btn:hover { animation: ctaPulse 1.5s ease infinite; }
+    .cta-card-btn:active { transform: scale(0.98); }
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 0 16px rgba(124, 58, 237, 0.4); transform: scale(1); }
+      50% { box-shadow: 0 0 24px rgba(124, 58, 237, 0.55); transform: scale(1.02); }
+    }
+
+    /* === About section === */
+    .photo-wrap {
+      position: relative;
+      border-radius: 32px;
+      overflow: visible;
+      border: none;
+      filter: drop-shadow(0 20px 50px rgba(15, 23, 42, 0.85));
+      isolation: isolate;
+    }
+    .photo-wrap::after {
+      content: "";
+      position: absolute;
+      inset: -18px -24px;
+      background: radial-gradient(circle at 50% 40%, rgba(15, 23, 42, 0.75) 0, rgba(15, 23, 42, 0.5) 35%, transparent 75%);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .photo-about {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center top;
+      filter: drop-shadow(0 25px 60px rgba(0, 0, 0, 0.45));
+    }
+
+    /* About text readability: soft gradient behind text */
+    .about-text-wrap {
+      position: relative;
+      z-index: 1;
+    }
+    .about-text-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -2rem -1.5rem;
+      border-radius: 24px;
+      background: radial-gradient(ellipse at 20% 30%, rgba(15, 23, 42, 0.5) 0, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .text-brand-green { color: #10b981; }
+
+    /* === Testimonials (sharper, more alive) === */
+    .testimonials-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .t-card-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      transition: transform var(--transition-base);
+    }
+    .t-offset-1 { transform: translateX(24px); }
+    .t-offset-2 { transform: translateX(36px); }
+    @media (max-width: 768px) {
+      .t-offset-1, .t-offset-2 { transform: none; }
+    }
+
+    .t-avatar-ring {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background:
+        radial-gradient(circle at 50% 50%, #020617 0, #020617 52%, transparent 55%),
+        conic-gradient(from 180deg, #ec4899, #a855f7, #ec4899);
+      padding: 2px;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9), 0 6px 16px rgba(15, 23, 42, 0.8);
+      flex-shrink: 0;
+    }
+    .t-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: rgba(15, 23, 42, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+    }
+
+    .t-bubble {
+      position: relative;
+      flex: 1;
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      padding: 1rem 1.15rem 0.9rem;
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+      overflow: hidden;
+    }
+    /* Sharper gradient border — no muted blur */
+    .t-bubble::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(148, 163, 253, 0.5), rgba(236, 72, 153, 0.4));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .t-bubble:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(226, 232, 240, 0.22);
+    }
+
+    .t-meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.45rem; }
+    .t-name { font-size: 0.9rem; font-weight: 600; color: #e5e7eb; }
+    .t-name-icon { color: #60a5fa; margin-right: 0.35rem; font-size: 0.8rem; }
+    .t-role { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #9ca3af; }
+    .t-meta-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.1rem; }
+    .t-rating { font-size: 0.75rem; font-weight: 600; color: #f9fafb; }
+    .t-rating span { color: #fbbf24; margin-right: 0.15rem; }
+    .t-date { font-size: 0.7rem; color: #6b7280; }
+    .t-body { font-size: 0.85rem; color: #cbd5e1; line-height: 1.65; }
+    .t-body p + p { margin-top: 0.4rem; }
+    .t-result { font-weight: 600; color: #e5e7eb; }
+
+    @media (max-width: 768px) {
+      .t-card-row { transform: none !important; }
+    }
+
+    /* === Logo === */
+    .logo-brand { transition: text-shadow 0.3s ease; }
+    .logo-brand:hover { text-shadow: 0 0 18px rgba(124, 58, 237, 0.7), 0 0 36px rgba(124, 58, 237, 0.4); }
+    .logo-wordmark {
+      font-family: 'Unbounded', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: linear-gradient(120deg, #e5e7eb 0%, #f472b6 35%, #a855f7 70%, #e5e7eb 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      white-space: nowrap;
+    }
+    .logo-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 9999px;
+      background: radial-gradient(circle, #fb7185 0, #f97316 40%, transparent 75%);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.9), 0 0 22px rgba(236, 72, 153, 0.9);
+    }
+
+    /* Footer tagline */
+    .footer-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: #4b5563;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-400 antialiased">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 glass border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between gap-3">
+      <a href="#" class="logo-brand flex items-center gap-2 font-heading font-bold text-base md:text-lg text-slate-50 flex-shrink-0" aria-label="На главную">
+        <span class="flex items-center gap-2">
+          <span class="logo-wordmark">ESSA.AI</span>
+          <span class="logo-dot" aria-hidden="true"></span>
+        </span>
+      </a>
+
+      <!-- Burger button (mobile) -->
+      <button type="button" id="burger-btn" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition" aria-label="Открыть меню" aria-expanded="false">
+        <i class="fa fa-bars text-lg" id="burger-icon"></i>
+      </button>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Главное меню">
+        <a href="#about" class="nav-link px-3 py-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-sm">Обо мне</a>
+        <a href="#cases" class="nav-link px-3 py-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-sm">Кейсы</a>
+        <a href="#faq" class="nav-link px-3 py-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-sm">FAQ</a>
+        <a href="#prices" class="nav-link px-3 py-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-sm">Цены</a>
+      </nav>
+
+      <div class="hidden md:flex items-center gap-3">
+        <a href="https://vk.com/burova_katerina" target="_blank" rel="noopener" class="p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition btn-interactive" aria-label="ВКонтакте"><i class="fab fa-vk text-lg"></i></a>
+        <a href="https://t.me/katburova" target="_blank" rel="noopener" class="p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition btn-interactive" aria-label="Telegram"><i class="fab fa-telegram-plane text-lg"></i></a>
+      </div>
+    </div>
+
+    <!-- Mobile menu (hidden by default) -->
+    <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/5 px-4 pb-4 pt-2">
+      <nav class="flex flex-col gap-1" aria-label="Мобильное меню">
+        <a href="#about" class="mobile-nav-link px-4 py-3 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-base">Обо мне</a>
+        <a href="#cases" class="mobile-nav-link px-4 py-3 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-base">Кейсы</a>
+        <a href="#faq" class="mobile-nav-link px-4 py-3 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-base">FAQ</a>
+        <a href="#prices" class="mobile-nav-link px-4 py-3 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition text-base">Цены</a>
+      </nav>
+      <div class="flex items-center gap-3 mt-3 px-4">
+        <a href="https://vk.com/burova_katerina" target="_blank" rel="noopener" class="p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition" aria-label="ВКонтакте"><i class="fab fa-vk text-lg"></i></a>
+        <a href="https://t.me/katburova" target="_blank" rel="noopener" class="p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:bg-white/5 transition" aria-label="Telegram"><i class="fab fa-telegram-plane text-lg"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero relative overflow-hidden pt-12 pb-16 md:pt-16 md:pb-24 px-4">
+    <div class="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-pink-500/5 pointer-events-none"></div>
+    <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-stretch gap-10 md:gap-16">
+
+      <!-- Текстовая стеклянная карточка -->
+      <div class="hero-text-card w-full md:max-w-xl lg:max-w-2xl">
+        <h1 class="font-heading font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-slate-50 mb-4 text-left">
+          Интеллектуальные системы для роста бизнеса
+        </h1>
+        <p class="text-slate-400 text-lg md:text-xl max-w-2xl mb-3 text-left">
+          Telegram-боты, AI-ассистенты и автоматизация Make- для компаний, которые масштабируются.
+        </p>
+        <p class="text-slate-500 text-sm md:text-base max-w-xl mb-8 text-left">
+          Встраиваюсь в архитектуру процессов, а не просто выполняю задачи
+        </p>
+        <a href="https://t.me/MyNotesAI_Bot" target="_blank" rel="noopener" class="hero-cta inline-flex items-center gap-2 gradient-btn text-white font-semibold px-6 py-3 rounded-xl btn-interactive active:scale-95">
+          <i class="fab fa-telegram-plane text-xl"></i> Написать в Telegram
+        </a>
+      </div>
+
+      <!-- Визуал: me2 + плавающие карточки -->
+      <div class="hero-visual relative w-full md:flex-1 flex flex-col items-center md:items-end mt-4 md:mt-0">
+        <div class="hero-photo-shell w-56 h-[18rem] sm:w-64 sm:h-[22rem] md:w-72 md:h-[28rem] lg:w-80 lg:h-[32rem] xl:w-[24rem] xl:h-[40rem]">
+          <img src="img/me2.png" alt="Катерина — AI-эксперт и архитектор автоматизаций" class="hero-photo">
+          <div class="hero-card hero-card-1">
+            <img src="img/card1.png" alt="UI-карточка 1" class="hero-card-img" onerror="this.closest('.hero-card').style.display='none';">
+          </div>
+          <div class="hero-card hero-card-2">
+            <img src="img/card2.png" alt="UI-карточка 2" class="hero-card-img" onerror="this.closest('.hero-card').style.display='none';">
+          </div>
+          <div class="hero-card hero-card-3">
+            <img src="img/card3.png" alt="Make.com card" class="hero-card-img" onerror="this.closest('.hero-card').style.display='none';">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-16 md:py-24 px-4 scroll-mt-20">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-50 mb-10 text-center">Обо мне</h2>
+      <div class="flex flex-col md:flex-row-reverse items-center gap-10 md:gap-16">
+        <div class="photo-wrap flex-shrink-0 w-64 h-[22rem] md:w-[26rem] md:h-[36rem]">
+          <img src="img/me.png" alt="Катерина — эксперт по AI и автоматизации" class="w-full h-full photo-about" width="288" height="288" loading="lazy">
+        </div>
+        <div class="flex-1 about-text-wrap">
+          <p class="text-slate-300 text-lg mb-6">Я помогаю бизнесу выстраивать системы на базе ИИ и автоматизации.<br>Не просто бот. Не просто интеграция. <strong class="text-slate-100">А работающий процесс.</strong></p>
+          <p class="text-slate-400 mb-6">За моими решениями — архитектура сценариев, логика обработки данных и автоматизация ключевых точек: заявки, учёт, коммуникация, контент.</p>
+          <p class="text-slate-300 mb-4 font-semibold">В результате вы получаете:</p>
+          <ul class="space-y-2.5 mb-6 text-slate-400">
+            <li class="flex items-center"><i class="fa-solid fa-check text-brand-green mr-3"></i>экономию времени</li>
+            <li class="flex items-center"><i class="fa-solid fa-check text-brand-green mr-3"></i>контроль процессов</li>
+            <li class="flex items-center"><i class="fa-solid fa-check text-brand-green mr-3"></i>меньше человеческих ошибок</li>
+            <li class="flex items-center"><i class="fa-solid fa-check text-brand-green mr-3"></i>стабильную работу 24/7</li>
+          </ul>
+          <p class="text-slate-500 text-sm">Telegram-боты, AI-ассистенты, Make.com, интеграции — под задачу, а не "ради технологии".</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cases -->
+  <section id="cases" class="py-16 md:py-24 px-4 scroll-mt-20">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-50 mb-10 text-center">Кейсы</h2>
+
+      <!-- 6 Флагманских решений -->
+      <h3 class="font-heading font-semibold text-lg text-slate-300 mb-4">🔥 6 ФЛАГМАНСКИХ РЕШЕНИЙ</h3>
+      <p class="text-slate-500 text-sm mb-6">Наведите на карточку, чтобы увидеть детали</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="flagship-grid" aria-live="polite"></div>
+
+      <!-- Другие проекты -->
+      <h3 class="font-heading font-semibold text-lg text-slate-300 mb-4">🗂 Другие проекты</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="other-projects" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section class="py-16 md:py-24 px-4">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-50 mb-10 text-center">Что говорят клиенты</h2>
+      <div class="testimonials-list">
+
+        <!-- Анна -->
+        <div class="t-card-row">
+          <div class="t-avatar-ring">
+            <div class="t-avatar-inner">А</div>
+          </div>
+          <div class="t-bubble">
+            <div class="t-meta">
+              <div>
+                <p class="t-name"><i class="fab fa-telegram-plane t-name-icon"></i>Анна, владелица студии красоты</p>
+                <p class="t-role">бот записи + напоминания</p>
+              </div>
+              <div class="t-meta-right">
+                <div class="t-rating"><span>★</span>5.0</div>
+                <div class="t-date">2&nbsp;дня назад</div>
+              </div>
+            </div>
+            <div class="t-body">
+              <p>После запуска бота записи клиенты сами выбирают время и получают напоминания в Telegram.</p>
+              <p>Мы почти перестали вести переписку “а какое время свободно?”, расписание стало предсказуемым.</p>
+              <p class="t-result">Результат: неявок стало примерно на 30% меньше без отдельного администратора.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Мария -->
+        <div class="t-card-row t-offset-1">
+          <div class="t-avatar-ring">
+            <div class="t-avatar-inner">М</div>
+          </div>
+          <div class="t-bubble">
+            <div class="t-meta">
+              <div>
+                <p class="t-name"><i class="fab fa-telegram-plane t-name-icon"></i>Мария, автор Telegram‑канала</p>
+                <p class="t-role">ИИ‑копирайтер под свой тон</p>
+              </div>
+              <div class="t-meta-right">
+                <div class="t-rating"><span>★</span>5.0</div>
+                <div class="t-date">1&nbsp;неделю назад</div>
+              </div>
+            </div>
+            <div class="t-body">
+              <p>Мы настроили ассистента, который пишет черновики постов из моих заметок и голосовых.</p>
+              <p>Я только дорабатываю формулировки и ставлю в очередь — без страха, что канал “зависнет” на месяц.</p>
+              <p class="t-result">Результат: стабильный выход постов 4–5 раз в неделю без выгорания и поисков копирайтера.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Кирилл -->
+        <div class="t-card-row t-offset-2">
+          <div class="t-avatar-ring">
+            <div class="t-avatar-inner">К</div>
+          </div>
+          <div class="t-bubble">
+            <div class="t-meta">
+              <div>
+                <p class="t-name"><i class="fab fa-telegram-plane t-name-icon"></i>Кирилл, ИП</p>
+                <p class="t-role">бот‑бухгалтер и учёт</p>
+              </div>
+              <div class="t-meta-right">
+                <div class="t-rating"><span>★</span>5.0</div>
+                <div class="t-date">3&nbsp;недели назад</div>
+              </div>
+            </div>
+            <div class="t-body">
+              <p>Теперь я просто скидываю чек или голосовое боту, а он сам раскладывает расходы по статьям в таблицу.</p>
+              <p>Отчёты стали прозрачными, и я наконец перестал бояться заглядывать в цифры в конце месяца.</p>
+              <p class="t-result">Результат: экономлю около половины дня в неделю и больше не теряю расходы в Excel.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-16 md:py-24 px-4 scroll-mt-20">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-50 mb-10 text-center">FAQ</h2>
+      <div class="space-y-2" id="faq-accordion">
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="0">
+            <span>1. Что такое AI-бот для бизнеса?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              AI-бот для бизнеса — это чат-бот с искусственным интеллектом, который понимает обычные сообщения и помогает автоматизировать коммуникации и процессы: первичные ответы клиентам, обработку заявок, поддержку, сбор данных и маршрутизацию обращений. В отличие от “скриптовых” ботов, AI-бот может работать с живыми формулировками пользователей и поддерживать диалог в рамках заданных правил и контекста. Часто AI-бот используют как первый уровень поддержки в Telegram или на сайте, чтобы ускорить ответы и разгрузить команду.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="1">
+            <span>2. Чем AI-бот отличается от обычного чат-бота?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Обычный чат-бот чаще всего работает по кнопкам и заранее заданным веткам. Он хорош там, где сценарий жёсткий и предсказуемый. AI-бот (на базе GPT) понимает свободный текст: клиент может написать “хочу записаться на пятницу вечером” или “сколько стоит внедрение”, а бот уточнит детали и даст ответ в нужном формате. Для бизнеса это означает меньше “тупиков” в диалоге, выше скорость ответа и более естественное общение — особенно в Telegram-ботах для продаж, поддержки и консультаций.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="2">
+            <span>3. Можно ли автоматизировать бизнес на Make.com?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Да. Make.com — популярная платформа для автоматизации бизнеса и интеграций без сложной разработки. Через Make можно связать Telegram-бота с Google Sheets, CRM, почтой, календарём, формами заявок, платёжными системами и другими сервисами. Например: заявка → бот уточняет бюджет/сроки → Make отправляет данные в таблицу/CRM → ставит задачу менеджеру → отправляет клиенту подтверждение. Это уменьшает ручной труд и снижает риск “потерянных” обращений.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="3">
+            <span>4. Сколько стоит разработка Telegram-бота?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Стоимость создания Telegram-бота зависит от цели и сложности: сценарии, количество интеграций, нужна ли AI-логика, база знаний (RAG), админ-панель, аналитика, ограничения доступа и т.д. Для типовых задач (заявки, запись, базовые автоматизации) стоимость обычно начинается от 14 900 ₽. Если нужен бот “под процессы” (нестандартная логика + интеграции) — цена рассчитывается после короткого уточнения задачи.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="4">
+            <span>5. Можно ли сделать бота для обработки заявок?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Да. Telegram-бот для обработки заявок помогает навести порядок: фиксирует обращения, собирает ключевые данные (контакт, бюджет, сроки, запрос), присваивает статус и передаёт всё в Google Sheets или CRM. Это особенно полезно экспертам, онлайн-школам, студиям и малому бизнесу, где заявки приходят в личку и теряются. Такой бот сокращает время реакции и повышает конверсию, потому что клиент получает быстрый ответ и понятный следующий шаг.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="5">
+            <span>6. Что такое RAG-бот и зачем он нужен?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              RAG-бот (Retrieval-Augmented Generation) — это AI-бот, который отвечает на вопросы на основе вашей базы знаний: FAQ, регламенты, инструкции, прайсы, документы. Он “подтягивает” релевантные фрагменты и формирует ответ строго в рамках источников. Это важно там, где цена ошибки высока: отели, сервисные компании, онлайн-школы, проекты с большим количеством повторяющихся вопросов. RAG-бот снижает нагрузку на поддержку и делает ответы стабильными.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="6">
+            <span>7. Можно ли внедрить AI-ассистента в онлайн-школу?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Да. AI-ассистент в онлайн-школе может помогать на нескольких уровнях: консультации по тарифам, ответы на частые вопросы, помощь ученикам в навигации по урокам, поддержка по домашкам (в рамках правил), сбор обратной связи, маршрутизация в поддержку. Это ускоряет ответы и уменьшает нагрузку на кураторов. Важно заранее определить “границы” ассистента: что он отвечает, где переводит на человека, какие источники использует.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="7">
+            <span>8. Сколько времени занимает внедрение бота?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Срок зависит от сложности и готовности материалов. Типовые внедрения Telegram-ботов и автоматизаций обычно занимают 2–5 рабочих дней: согласование сценария → настройка → тестирование → запуск. Если требуется база знаний (RAG), нестандартные интеграции или несколько модулей (заявки + запись + аналитика), сроки могут увеличиться. Но почти всегда можно запускаться поэтапно: сначала минимальная версия (MVP), потом улучшения.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="8">
+            <span>9. Работаете ли вы удалённо по России?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Да. Разработка AI-ботов, GPT-ассистентов и автоматизация на Make.com отлично делаются удалённо. Коммуникация, демонстрации и приёмка обычно проходят в Telegram. Вы получаете готовое решение, инструкции и поддержку на старте. География не ограничивает внедрение: можно работать с проектами из Москвы, Санкт-Петербурга и любых регионов России/СНГ.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item glass rounded-xl border border-white/10 overflow-hidden">
+          <button type="button" class="faq-trigger w-full px-5 py-4 flex items-center justify-between text-left text-slate-50 font-medium hover:bg-white/5 transition" aria-expanded="false" data-faq="9">
+            <span>10. Нужна ли CRM для работы бота?</span>
+            <i class="fa fa-chevron-down text-slate-400 transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-5 pb-4">
+            <p class="text-slate-400 text-sm">
+              Не обязательно. Для многих задач достаточно Google Sheets: заявки фиксируются, статусы обновляются, есть прозрачный контроль. Если CRM уже есть — интеграция повышает удобство: заявки попадают прямо в воронку, автоматически создаются задачи, назначается ответственный, запускаются уведомления. Выбор зависит от масштаба и процессов. На старте часто лучше начать с простого (таблица), а затем перейти к CRM.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prices (anchor for nav) -->
+  <section id="prices" class="py-16 md:py-24 px-4 scroll-mt-20">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="font-heading font-bold text-2xl md:text-3xl text-slate-50 mb-4">Цены</h2>
+      <p class="text-slate-400 mb-8">Стоимость внедрения одного кейса под ключ — от <strong class="text-accent">14 900</strong> руб. Точная сумма зависит от объёма и интеграций.</p>
+      <a href="https://t.me/MyNotesAI_Bot" target="_blank" rel="noopener" class="inline-flex items-center gap-2 gradient-btn text-white font-semibold px-6 py-3 rounded-xl btn-interactive active:scale-95">
+        <i class="fab fa-telegram-plane text-xl"></i> Узнать цену в боте
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-10 pb-24 md:pb-10 px-4">
+    <div class="max-w-6xl mx-auto flex flex-col items-center gap-6">
+      <div class="flex items-center gap-4">
+        <a href="https://vk.com/burova_katerina" target="_blank" rel="noopener" class="p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:shadow-glow transition btn-interactive" aria-label="ВКонтакте"><i class="fab fa-vk text-xl"></i></a>
+        <a href="https://t.me/studio_essa_ai" target="_blank" rel="noopener" class="p-2 rounded-lg text-slate-400 hover:text-slate-50 hover:shadow-glow transition btn-interactive" aria-label="Telegram"><i class="fab fa-telegram-plane text-xl"></i></a>
+      </div>
+      <p class="footer-tagline">AI & Automation — systems, not scripts.</p>
+      <a href="#" class="text-slate-500 text-sm hover:text-slate-400 transition">Политика конфиденциальности</a>
+      <a href="https://t.me/MyNotesAI_Bot" target="_blank" rel="noopener" class="inline-flex items-center gap-2 gradient-btn text-white font-semibold px-6 py-3 rounded-xl btn-interactive active:scale-95">
+        <i class="fab fa-telegram-plane"></i> Написать
+      </a>
+      <p class="text-slate-500 text-sm">© <span id="year"></span> ESSA.AI</p>
+    </div>
+  </footer>
+
+  <!-- Floating CTA -->
+  <a href="https://t.me/MyNotesAI_Bot" target="_blank" rel="noopener" aria-label="Написать в Telegram" class="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-full gradient-btn text-white shadow-glow hover:shadow-glowHover transition-all duration-300 btn-interactive">
+    <i class="fab fa-telegram-plane text-2xl md:text-3xl"></i>
+  </a>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
